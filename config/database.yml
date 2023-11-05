@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['DATABASE_NAME'] || "retro_pulse" %>
+  username: <%= ENV['DATABASE_USER'] || "retro_pulse" %>
+  password: <%= ENV['DATABASE_PASSWORD'] || "retro_pulse" %>
+  port: <%= ENV['DATABASE_PORT'] || "5432" %>
+  host: <%= ENV['DATABASE_HOST'] || "127.0.0.1" %>
+development:
+  <<: *default
+  port: 5437
+test:
+  <<: *default
+  database: retro_pulse_test
+  port: 5437
+production:
+  <<: *default
+  database: retro_pulse_production
+  username: retro_pulse
+  password: <%= ENV['RETRO_PULSE_DATABASE_PASSWORD'] %>

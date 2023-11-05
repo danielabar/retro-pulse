@@ -1,0 +1,41 @@
+{
+    "display_information": {
+        "name": "retro-pulse",
+        "description": "Collect ongoing feedback for your team's retrospective meeting",
+        "background_color": "#008080",
+        "long_description": "This is a simple app to collect ongoing feedback via Slack for team retrospectives. While the retro meeting is typically held at the end of a sprint, shape up cycle, or project, it's useful for team members to be able to quickly submit feedback whenever it occurs during project development, otherwise good ideas or feedback can be forgotten about by the time the retro meeting is booked."
+    },
+    "features": {
+        "bot_user": {
+            "display_name": "retro-pulse",
+            "always_online": false
+        },
+        "slash_commands": [
+            {
+                "command": "/retro-open",
+                "url": "https://SERVER_HOST_NAME/api/slack/command",
+                "description": "Open a new retrospective for comments",
+                "usage_hint": "title",
+                "should_escape": false
+            }
+        ]
+    },
+    "oauth_config": {
+        "redirect_urls": [
+            "https://SERVER_HOST_NAME?scope=incoming-webhook&client_id=SLACK_CLIENT_ID"
+        ],
+        "scopes": {
+            "bot": [
+                "commands",
+                "chat:write",
+                "users:read",
+                "chat:write.public"
+            ]
+        }
+    },
+    "settings": {
+        "org_deploy_enabled": false,
+        "socket_mode_enabled": false,
+        "token_rotation_enabled": false
+    }
+}
