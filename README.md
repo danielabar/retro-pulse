@@ -4,7 +4,7 @@ This is a companion project for a blog post about building Slack Apps with Rails
 
 This Slack app, built with Rails 7, is designed to streamline the [agile retrospective](https://www.scrum.org/resources/what-is-a-sprint-retrospective) process with Slack slash commands. While traditional retrospectives are often scheduled at the end of a sprint, shape up cycle, or project, Retro Pulse recognizes the need for a more fluid feedback mechanism. With Retro Pulse, team members can easily submit feedback as it arises during project development, ensuring that valuable insights are captured and not lost in the shuffle.
 
-**NOTE:** Retro Pulse is tailored for simplicity. This app is designed for individual teams to integrate into their workspace, with the intention that the underlying Rails app is kept secure behind a VPN or other access controls (i.e. not publicly accessible). The initial focus is on delivering a straightforward solution, so a full SAAS/multi-tenant architecture is not part of the initial release.
+**NOTE:** This project is primarily for educational purposes, to learn how to integrate the Slack API with Rails including slash commands and handling modal forms. To use in production would also require user auth, possibly with devise, which is not covered in this release.
 
 ## Setup
 
@@ -79,23 +79,31 @@ If want to place `debugger` in Ruby code, need to start server with `bin/rails s
 
 ## TODO
 
-- Add validation to retrospective model so that only one can be open at a time
+- implement retro-feedback slash command handler to open modal with:
+  - select dropdown: keep, stop, try
+  - textarea
+  - checkbox for anon
+  - Nice to have: text area form label changes based on dropdown value (eg: What should we keep on doing?)
+
 - retro-open slash command handler
   - extract logic to a service
   - error handling
   - sanitize `text`
-- implement retro-keep slash command handler to open modal with textarea and checkbox for anon
-- handle modal form submission for retro-keep, always save slack user info (check which fields are deprecated)
-- implement retro-stop
-- implement retro-try
-- build retro view showing keep, stop, and try feedback as cards in columns
+
+- handle modal form submission for retro-feedback, always save slack user info (check which fields are deprecated)
+
+- Add validation to retrospective model so that only one can be open at a time
+
+- application layout needs work, especially wrt notices (actually, maybe don't need notices anymore)
+- build retro view: showing keep, stop, and try feedback as cards in columns
   - if feedback has anon checked, then display anon, otherwise display Slack user
   - nice to have: can we get Slack avatar?
-- application layout needs work, especially wrt notices (actually, maybe don't need notices anymore)
 - welcome index view styling, layout
+
 - tests for bot/slash_commands?
 - oauth scopes are defined in two places: `app_manifest_template.json` and `config/initializers/slack_ruby_bot_server.rb`
 - Handle 400 error from POST /api/teams, eg: { "type": "other_error", "message": "Team foo is already registered.", "backtrace": "..." }
+- Can user's edit their feedback?
 
 ## Further Reading
 
