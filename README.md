@@ -77,34 +77,6 @@ bin/rspec
 
 If want to place `debugger` in Ruby code, need to start server with `bin/rails s` instead of `bin/dev`.
 
-## TODO
-
-- implement retro-feedback slash command handler to open modal with:
-  - select dropdown: keep, stop, try
-  - textarea
-  - checkbox for anon
-  - Nice to have: text area form label changes based on dropdown value (eg: What should we keep on doing?)
-
-- retro-open slash command handler
-  - extract logic to a service
-  - error handling
-  - sanitize `text`
-
-- handle modal form submission for retro-feedback, always save slack user info (check which fields are deprecated)
-
-- Add validation to retrospective model so that only one can be open at a time
-
-- application layout needs work, especially wrt notices (actually, maybe don't need notices anymore)
-- build retro view: showing keep, stop, and try feedback as cards in columns
-  - if feedback has anon checked, then display anon, otherwise display Slack user
-  - nice to have: can we get Slack avatar?
-- welcome index view styling, layout
-
-- tests for bot/slash_commands?
-- oauth scopes are defined in two places: `app_manifest_template.json` and `config/initializers/slack_ruby_bot_server.rb`
-- Handle 400 error from POST /api/teams, eg: { "type": "other_error", "message": "Team foo is already registered.", "backtrace": "..." }
-- Can user's edit their feedback?
-
 ## Further Reading
 
 - [Gems for Slack](docs/gems_for_slack.md)
@@ -112,3 +84,10 @@ If want to place `debugger` in Ruby code, need to start server with `bin/rails s
 - [OAuth](docs/oauth.md)
 - [Scaffolding](docs/scaffolding.md)
 - [Visual Design](docs/visual_design.md)
+
+## Slack References
+
+- [Block Kit](https://api.slack.com/block-kit/building)
+- [Blocks Reference](https://api.slack.com/reference/block-kit/blocks)
+- [Modals](https://api.slack.com/surfaces/modals)
+- [Handling Interaction Payloads](https://api.slack.com/interactivity/handling#payloads)
