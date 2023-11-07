@@ -19,6 +19,7 @@
 - handle modal form submission for retro-feedback, always save slack user info (check which fields are deprecated)
 
 - Add validation to retrospective model so that only one can be open at a time
+- Need action for `/retro-close`
 
 - Why does it show "Sending messages to this app has been turned off" in Slack when clicking on the Retro Pulse app?
 

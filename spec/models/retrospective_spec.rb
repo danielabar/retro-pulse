@@ -28,6 +28,18 @@ RSpec.describe Retrospective do
 
       it { is_expected.to validate_uniqueness_of(:title) }
     end
+
+    # WIP..
+    context "when validating only one open retrospective" do
+      it "allows creating a new open retrospective if there are no existing open retrospectives" do
+        expect(retrospective).to be_valid
+      end
+
+      it "does not allow creating a new open retrospective if there is already an open retrospective" do
+        create(:retrospective, status: "open")
+        expect(retrospective.errors[:status]).to include("There can only be one open retrospective at a time.")
+      end
+    end
   end
 
   describe "enum" do

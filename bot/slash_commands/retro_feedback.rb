@@ -5,7 +5,7 @@ SlackRubyBotServer::Events.configure do |config|
     slack_client = Slack::Web::Client.new(token: team.token)
     channel_id = command[:channel_id]
     trigger_id = command[:trigger_id]
-    command.logger.info "Received team: #{team.name}, channel_id: #{channel_id}"
+    command.logger.info "Command: retro-feedback, Team: #{team.name}, Channel: #{channel_id}"
 
     # https://api.slack.com/methods/views.open
     slack_client.views_open(modal_payload(trigger_id))
@@ -89,6 +89,28 @@ def modal_payload(trigger_id)
           label: {
             type: "plain_text",
             text: "Comment"
+          }
+        },
+        {
+          type: "input",
+          block_id: "anonymous_block",
+          optional: true,
+          element: {
+            type: "checkboxes",
+            action_id: "anonymous_checkbox",
+            options: [
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Yes"
+                },
+                value: "true"
+              }
+            ]
+          },
+          label: {
+            type: "plain_text",
+            text: "Anonymous"
           }
         }
       ]

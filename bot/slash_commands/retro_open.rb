@@ -7,7 +7,7 @@ SlackRubyBotServer::Events.configure do |config|
     channel_id = command[:channel_id]
     # this is the title (sanitize for a real app)
     text = command[:text].strip
-    command.logger.info "Received team: #{team.name}, channel_id: #{channel_id}, text: #{text}"
+    command.logger.info "Command: retro-open, Team: #{team.name}, Channel: #{channel_id}"
 
     # Create a retro and reply back in Slack, ref: https://api.slack.com/methods/chat.postMessage
     retrospective = Retrospective.new(title: text)

@@ -15,11 +15,20 @@
 class Retrospective < ApplicationRecord
   has_many :comments, dependent: :destroy
 
-  validates :title, presence: true, uniqueness: true
-  validates :status, presence: true
-
   enum status: {
     open: "open",
     closed: "closed"
   }
+
+  validates :title, presence: true, uniqueness: true
+  validates :status, presence: true
+  validate :only_one_open_retrospective, on: :create
+
+  private
+
+  def only_one_open_retrospective
+    return unless open? && Retrospective.exists?(status: "open")
+
+    errors.add(:status, "There can only be one open retrospective at a time.")
+  end
 end
