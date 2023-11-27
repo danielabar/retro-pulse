@@ -29,15 +29,19 @@ RSpec.describe Retrospective do
       it { is_expected.to validate_uniqueness_of(:title) }
     end
 
-    # WIP..
     context "when validating only one open retrospective" do
       it "allows creating a new open retrospective if there are no existing open retrospectives" do
         expect(retrospective).to be_valid
       end
 
       it "does not allow creating a new open retrospective if there is already an open retrospective" do
+        # Use `create` rather than `build_stubbed` because the first retro needs to be saved to the db
+        # for the validation to check if there already is an open one.
         create(:retrospective, status: "open")
-        expect(retrospective.errors[:status]).to include("There can only be one open retrospective at a time.")
+        retro2 = described_class.new(title: "foo", status: "open")
+        retro2.valid?
+        puts "retro2 errors: #{retro2.errors.full_messages}"
+        expect(retro2.errors[:status]).to include("There can only be one open retrospective at a time.")
       end
     end
   end

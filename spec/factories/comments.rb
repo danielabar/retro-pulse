@@ -4,6 +4,7 @@
 #
 #  id               :bigint           not null, primary key
 #  anonymous        :boolean          default(FALSE), not null
+#  category         :enum             default("keep"), not null
 #  content          :text             not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

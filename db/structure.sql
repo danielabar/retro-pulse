@@ -10,6 +10,17 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: comment_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.comment_category AS ENUM (
+    'keep',
+    'stop',
+    'try'
+);
+
+
+--
 -- Name: retrospective_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -45,7 +56,8 @@ CREATE TABLE public.comments (
     anonymous boolean DEFAULT false NOT NULL,
     retrospective_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    category public.comment_category DEFAULT 'keep'::public.comment_category NOT NULL
 );
 
 
@@ -110,6 +122,46 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: teams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.teams (
+    id bigint NOT NULL,
+    team_id character varying,
+    name character varying,
+    domain character varying,
+    token character varying,
+    oauth_scope character varying,
+    oauth_version character varying DEFAULT 'v1'::character varying NOT NULL,
+    bot_user_id character varying,
+    activated_user_id character varying,
+    activated_user_access_token character varying,
+    active boolean DEFAULT true,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
+
+
+--
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -121,6 +173,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 --
 
 ALTER TABLE ONLY public.retrospectives ALTER COLUMN id SET DEFAULT nextval('public.retrospectives_id_seq'::regclass);
+
+
+--
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_id_seq'::regclass);
 
 
 --
@@ -156,6 +215,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_comments_on_retrospective_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -186,6 +253,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20231003124110'),
 ('20231003125437'),
-('20231004114901');
+('20231004114901'),
+('20231107124352');
 
 

@@ -22,7 +22,7 @@ class Retrospective < ApplicationRecord
 
   validates :title, presence: true, uniqueness: true
   validates :status, presence: true
-  validate :only_one_open_retrospective, on: :create
+  validate :only_one_open_retrospective
 
   private
 

@@ -4,7 +4,7 @@ RSpec.describe "retrospectives/index" do
   before do
     assign(:retrospectives, [
              Retrospective.create!(title: "Title 1"),
-             Retrospective.create!(title: "Title 2")
+             Retrospective.create!(title: "Title 2", status: "closed")
            ])
   end
 

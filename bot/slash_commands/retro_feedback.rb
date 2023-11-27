@@ -5,7 +5,7 @@ SlackRubyBotServer::Events.configure do |config|
     slack_client = Slack::Web::Client.new(token: team.token)
     channel_id = command[:channel_id]
     trigger_id = command[:trigger_id]
-    command.logger.info "Command: retro-feedback, Team: #{team.name}, Channel: #{channel_id}"
+    command.logger.info "=== COMMAND: retro-feedback, Team: #{team.name}, Channel: #{channel_id}"
 
     # https://api.slack.com/methods/views.open
     slack_client.views_open(modal_payload(trigger_id))
