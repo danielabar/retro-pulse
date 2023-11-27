@@ -67,7 +67,15 @@ bundle exec rake manifest:generate
 
 Copy the generated `app_manifest.json` and paste it in the App Manifest section of the Slack App you created earlier. If you see a message about Event Subscription url being unverified, "click here" to have Slack verify it. This should work given that the Rails server is running and ngrok is forwarding to it.
 
-Run tests:
+Navigate to: http://localhost:3000
+
+Click Add to Slack and follow the OAuth flow. (you must be logged into your Slack workspace for this to work).
+
+This should add the Retro Pulse app to your Slack workspace.
+
+Then in any channel, type in `/retro-open` and then `/retro-feedback` to use the app.
+
+### Run tests
 
 ```ruby
 bin/rspec

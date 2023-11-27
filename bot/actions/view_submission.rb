@@ -8,7 +8,7 @@ SlackRubyBotServer::Events.configure do |config|
 
     user_id = payload["user"]["id"]
     category = payload["view"]["state"]["values"]["category_block"]["category_select"]["selected_option"]["value"]
-    action.logger.info "Action: view_submission, User: #{payload['user']['username']}, Category: #{category}"
+    action.logger.info "=== ACTION: view_submission, User: #{payload['user']['username']}, Category: #{category}"
 
     # TODO: Parse payload to extract feedback comment and category
     # Find the one open retro (should only be one!)
