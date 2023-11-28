@@ -20,9 +20,7 @@ SlackRubyBotServer::Events.configure do |config|
     retrospective = Retrospective.find_by(status: "open")
 
     # Only save slack info when anonymous is true.
-    slack_info = anonymous ? { slack_user_id:, slack_username: } : {}
-    # temp debug
-    puts "=== SLACK_INFO = #{slack_info}"
+    slack_info = anonymous ? { slack_user_id: nil, slack_username: nil } : { slack_user_id:, slack_username: }
 
     # Save the new Comment for the Retrospective
     new_comment = Comment.new(
