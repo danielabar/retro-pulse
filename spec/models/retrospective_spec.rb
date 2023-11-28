@@ -40,7 +40,6 @@ RSpec.describe Retrospective do
         create(:retrospective, status: "open")
         retro2 = described_class.new(title: "foo", status: "open")
         retro2.valid?
-        puts "retro2 errors: #{retro2.errors.full_messages}"
         expect(retro2.errors[:status]).to include("There can only be one open retrospective at a time.")
       end
     end

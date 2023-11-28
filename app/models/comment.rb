@@ -6,9 +6,11 @@
 #  anonymous        :boolean          default(FALSE), not null
 #  category         :enum             default("keep"), not null
 #  content          :text             not null
+#  slack_username   :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  retrospective_id :bigint           not null
+#  slack_user_id    :string
 #
 # Indexes
 #
@@ -29,4 +31,6 @@ class Comment < ApplicationRecord
 
   validates :content, presence: true
   validates :anonymous, inclusion: { in: [true, false] }
+  validates :slack_user_id, presence: true, unless: :anonymous?
+  validates :slack_username, presence: true, unless: :anonymous?
 end
