@@ -31,6 +31,10 @@ class Comment < ApplicationRecord
 
   validates :content, presence: true
   validates :anonymous, inclusion: { in: [true, false] }
-  validates :slack_user_id, presence: true, unless: :anonymous?
-  validates :slack_username, presence: true, unless: :anonymous?
+
+  # These validations must match the `check_slack_info_if_not_anonymous` check constraint on the `comments` table:
+  validates :slack_user_id, absence: { message: "must be empty when anonymous is true" }, if: :anonymous
+  validates :slack_username, absence: { message: "must be empty when anonymous is true" }, if: :anonymous
+  validates :slack_user_id, presence: { message: "must be provided when anonymous is false" }, unless: :anonymous
+  validates :slack_username, presence: { message: "must be provided when anonymous is false" }, unless: :anonymous
 end

@@ -28,6 +28,8 @@
 - validate/inclusion on all models with enums, error message should include the list of allowed values
 - instead of string values everywhere, reference Model.enum...
 
+- remove unused routes and pending tests
+
 ## Nice to have
 
 - `/retro-feedback` default category to `keep` should be able to do with `initial_option` in [static_select](https://api.slack.com/reference/block-kit/block-elements#static_select) but getting invalid error

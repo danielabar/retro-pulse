@@ -40,16 +40,38 @@ RSpec.describe Comment do
       expect(comment).to have_attributes(anonymous: false)
     end
 
-    it "validates presence of slack_user_id when not anonymous" do
-      comment = described_class.new(anonymous: false, slack_user_id: nil)
+    it "validates absence of slack_user_id when anonymous is true" do
+      comment = described_class.new(anonymous: true, slack_user_id: "abc123")
       comment.valid?
-      expect(comment.errors[:slack_user_id]).to include("can't be blank")
+      expect(comment.errors[:slack_user_id]).to include("must be empty when anonymous is true")
     end
 
-    it "validates presence of slack_username when not anonymous" do
+    it "validates absence of slack_username when anonymous is true" do
+      comment = described_class.new(anonymous: true, slack_username: "jane.smith")
+      comment.valid?
+      expect(comment.errors[:slack_username]).to include("must be empty when anonymous is true")
+    end
+
+    it "validates presence of slack_user_id when anonymous is false" do
+      comment = described_class.new(anonymous: false, slack_user_id: nil)
+      comment.valid?
+      expect(comment.errors[:slack_user_id]).to include("must be provided when anonymous is false")
+    end
+
+    it "validates presence of slack_username when anonymous is false" do
       comment = described_class.new(anonymous: false, slack_username: nil)
       comment.valid?
-      expect(comment.errors[:slack_username]).to include("can't be blank")
+      expect(comment.errors[:slack_username]).to include("must be provided when anonymous is false")
+    end
+
+    it "is valid when anonymous is false and slack info is populated" do
+      comment = build_stubbed(:comment, anonymous: false, slack_user_id: "abc123", slack_username: "jane.smith")
+      expect(comment).to be_valid
+    end
+
+    it "is valid when anonymous is true and slack info is not populated" do
+      comment = build_stubbed(:comment, anonymous: true, slack_user_id: nil, slack_username: nil)
+      expect(comment).to be_valid
     end
   end
 

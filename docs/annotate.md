@@ -1,5 +1,7 @@
 # Annotate
 
+Has support for annotating check constraints but that PR got merged AFTER latest 3.2.0 release.
+
 * https://github.com/ctran/annotate_models/blob/e60a66644e8a8ea5dccd6a398d31f22878233998/lib/tasks/annotate_models.rake#L21
 * https://github.com/search?q=repo%3Actran%2Fannotate_models%20show_check_constraints&type=code
 * https://github.com/ctran/annotate_models/blob/e60a66644e8a8ea5dccd6a398d31f22878233998/lib/annotate/annotate_models.rb#L384
@@ -42,13 +44,32 @@ def get_check_constraint_info(klass, options = {})
 end
 
 get_check_constraint_info(Comment)
-# => "#\n# Check Constraints\n#\n#  check_slack_info_if_not_anonymous  (NOT anonymous OR slack_user_id IS NOT NULL AND slack_username IS NOT NULL)\n"
+# => "#\n# Check Constraints\n#\n#  check_slack_info_if_not_anonymous  (anonymous AND slack_user_id IS NULL AND slack_username IS NULL)\n"
 ```
 
+Manual tests in db console:
 ```sql
-INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, category, slack_user_id, slack_username)
-VALUES ('Example Content', false, 6, NOW(), NOW(), 'keep', '123abc', 'john_doe');
+-- CASE 1: Anonymous: False, Slack info populated       -> ALLOWED - WORKING
+INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, slack_user_id, slack_username)
+VALUES ('foo', false, 6, NOW(), NOW(), 'abc.123', 'jane.smith');
 
-INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, category, slack_user_id, slack_username)
-VALUES ('Example Content', false, 6, NOW(), NOW(), 'keep', NULL, NULL);
+-- CASE 2: Anonymous: False, Slack info not populated   -> VIOLATION - WORKING
+INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, slack_user_id, slack_username)
+VALUES ('foo', false, 6, NOW(), NOW(), NULL, NULL);
+
+-- CASE 3: Anonymous: True, Slack info populated        -> VIOLATION - WORKING
+INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, slack_user_id, slack_username)
+VALUES ('foo', true, 6, NOW(), NOW(), 'abc.123', 'jane.smith');
+
+-- CASE 4: Anonymous: True, Slack info not populated    -> ALLOWED - WORKING
+INSERT INTO comments (content, anonymous, retrospective_id, created_at, updated_at, slack_user_id, slack_username)
+VALUES ('foo', true, 6, NOW(), NOW(), NULL, NULL);
+```
+
+```ruby
+add_check_constraint(
+  :comments,
+  "(anonymous AND slack_user_id IS NULL AND slack_username IS NULL) OR (NOT anonymous AND slack_user_id IS NOT NULL AND slack_username IS NOT NULL)",
+  name: "check_slack_info_if_not_anonymous"
+)
 ```

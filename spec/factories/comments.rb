@@ -25,5 +25,7 @@ FactoryBot.define do
     retrospective
     content { "MyText" }
     anonymous { false }
+    slack_user_id { "abc123" }
+    slack_username { "jane.smith" }
   end
 end

@@ -67,7 +67,7 @@ CREATE TABLE public.comments (
     category public.comment_category DEFAULT 'keep'::public.comment_category NOT NULL,
     slack_user_id character varying,
     slack_username character varying,
-    CONSTRAINT check_slack_info_if_not_anonymous CHECK (((NOT anonymous) AND ((slack_user_id IS NOT NULL) AND (slack_username IS NOT NULL))))
+    CONSTRAINT check_slack_info_if_not_anonymous CHECK (((anonymous AND (slack_user_id IS NULL) AND (slack_username IS NULL)) OR ((NOT anonymous) AND (slack_user_id IS NOT NULL) AND (slack_username IS NOT NULL))))
 );
 
 
