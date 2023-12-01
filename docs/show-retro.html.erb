@@ -1,0 +1,49 @@
+<!-- app/views/retrospectives/show.html.erb -->
+
+<div class="container mx-auto mt-8">
+  <h1 class="text-4xl font-bold mb-4"><%= @retrospective.title %></h1>
+
+  <div class="grid grid-cols-3 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-2">Keep</h2>
+      <% @retrospective.comments.keep.each do |comment| %>
+        <%= render_card(comment) %>
+      <% end %>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-bold mb-2">Stop</h2>
+      <% @retrospective.comments.stop.each do |comment| %>
+        <%= render_card(comment) %>
+      <% end %>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-bold mb-2">Try</h2>
+      <% @retrospective.comments.try.each do |comment| %>
+        <%= render_card(comment) %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# Helper method to render a comment card %>
+<%# You might want to create a new partial, e.g., _comment_card.html.erb, for better organization %>
+<% def render_card(comment) %>
+  <div class="bg-<%= card_color(comment.category) %> rounded p-4 mb-4">
+    <p class="text-gray-600 text-sm">
+      <%= comment.anonymous ? "Anonymous" : comment.slack_username %>
+    </p>
+    <p class="mt-2"><%= comment.content %></p>
+  </div>
+<% end %>
+
+<%# Helper method to determine the card color based on the comment category %>
+<% def card_color(category) %>
+  <% case category %>
+    <% when "keep" then "pink-100" %>
+    <% when "stop" then "yellow-100" %>
+    <% when "try" then "green-100" %>
+    <% else "gray-100" %>
+  <% end %>
+<% end %>
