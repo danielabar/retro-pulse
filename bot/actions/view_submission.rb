@@ -8,13 +8,15 @@ SlackRubyBotServer::Events.configure do |config|
     slack_client = Slack::Web::Client.new(token: team.token)
 
     # Parse payload to extract comment, category, anonymous, slack user id and slack username
+    # If app is receiving multiple different form submissions, check callback_id and handle accordingly
+    callback_id = payload["view"]["callback_id"]
     user_id = payload["user"]["id"]
     category = payload["view"]["state"]["values"]["category_block"]["category_select"]["selected_option"]["value"]
     comment = payload["view"]["state"]["values"]["comment_block"]["comment_input"]["value"]
     anonymous = payload["view"]["state"]["values"]["anonymous_block"]["anonymous_checkbox"]["selected_options"].present?
     slack_user_id = payload["user"]["id"]
     slack_username = payload["user"]["username"]
-    action.logger.info "=== ACTION: User: #{payload['user']['username']}, Cat: #{category}, Anon: #{anonymous}"
+    action.logger.info "=== ACTION: CB: #{callback_id}, U: #{slack_username}, CAT: #{category}, AN: #{anonymous}"
 
     # Find the one open Retrospective model (should only be one!)
     retrospective = Retrospective.find_by(status: "open")

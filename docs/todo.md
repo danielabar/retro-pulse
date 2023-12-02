@@ -1,8 +1,5 @@
 # TODO
 
-- WIP: Add slack user id to comment and persist if not anonymous
-- WIP: Implement action to handle modal form submission for retro-feedback, always save slack user info (check which fields are deprecated)
-
 - experiment: add vscode rest client and try to submit `POST /api/slack/action` (or /command) with/without valid X-Slack-Signature header to see what breaks, where validation happens within slack server gem
 
 - refactor retro-open slash command handler `bot/slash_commands/retro_open.rb`

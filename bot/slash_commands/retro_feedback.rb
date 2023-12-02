@@ -14,11 +14,14 @@ SlackRubyBotServer::Events.configure do |config|
 end
 
 # rubocop:disable Metrics/MethodLength
+# callback_id populated here will come back in view_submission payload as:
+# payload["view"]["callback_id"]. See `bot/actions/view_submission.rb`.
 def modal_payload(trigger_id)
   {
     trigger_id:,
     view: {
       type: "modal",
+      callback_id: "feedback_form",
       title: {
         type: "plain_text",
         text: "Retrospective Feedback",
