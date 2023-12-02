@@ -1,7 +1,5 @@
 # TODO
 
-- experiment: add vscode rest client and try to submit `POST /api/slack/action` (or /command) with/without valid X-Slack-Signature header to see what breaks, where validation happens within slack server gem
-
 - refactor retro-open slash command handler `bot/slash_commands/retro_open.rb`
   - extract logic to a service: retro creation and construction of response message
   - error handling
