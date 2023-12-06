@@ -47,8 +47,11 @@ gem "bootsnap", require: false
 
 # Slack Integration
 gem "slack-ruby-bot-server-events"
-gem 'otr-activerecord'
-gem 'pagy_cursor'
+gem "otr-activerecord"
+gem "pagy_cursor"
+
+# Service pattern
+gem "interactor", "~> 3.0"
 
 # Use Sass to process CSS
 # gem "sassc-rails"

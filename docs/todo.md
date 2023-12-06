@@ -1,6 +1,6 @@
 # TODO
 
-- refactor retro-open slash command handler `bot/slash_commands/retro_open.rb`
+- WIP: refactor retro-open slash command handler `bot/slash_commands/retro_open.rb`
   - extract logic to a service: retro creation and construction of response message
   - error handling
   - sanitize `text`
