@@ -99,3 +99,6 @@ If want to place `debugger` in Ruby code, need to start server with `bin/rails s
 - [Blocks Reference](https://api.slack.com/reference/block-kit/blocks)
 - [Modals](https://api.slack.com/surfaces/modals)
 - [Handling Interaction Payloads](https://api.slack.com/interactivity/handling#payloads)
+- [View Submissin Payload](https://api.slack.com/reference/interaction-payloads/views#view_submission)
+- [Slack User](https://api.slack.com/types/user)
+- [Slash commands and what to respond](https://api.slack.com/interactivity/slash-commands)

@@ -10,6 +10,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+--
 -- Name: comment_category; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -57,7 +64,10 @@ CREATE TABLE public.comments (
     retrospective_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    category public.comment_category DEFAULT 'keep'::public.comment_category NOT NULL
+    category public.comment_category DEFAULT 'keep'::public.comment_category NOT NULL,
+    slack_user_id character varying,
+    slack_username character varying,
+    CONSTRAINT check_slack_info_if_not_anonymous CHECK (((anonymous AND (slack_user_id IS NULL) AND (slack_username IS NULL)) OR ((NOT anonymous) AND (slack_user_id IS NOT NULL) AND (slack_username IS NOT NULL))))
 );
 
 
@@ -254,6 +264,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20231003124110'),
 ('20231003125437'),
 ('20231004114901'),
-('20231107124352');
+('20231107124352'),
+('20231127134515'),
+('20231127134525'),
+('20231127135016');
 
 
