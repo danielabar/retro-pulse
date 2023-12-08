@@ -1,7 +1,7 @@
 # TODO
 
-- refactor retro-feedback slash command handler (service, error handling) `bot/slash_commands/retro_feedback.rb`
-- refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`
+- WIP: refactor retro-feedback slash command handler (service, error handling) `bot/slash_commands/retro_feedback.rb`. Interactor: InitiateFeedbackForm
+- refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission
 
 - Need action for `/retro-close` to close the currently open Retrospective
 
