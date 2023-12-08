@@ -19,7 +19,7 @@ SlackRubyBotServer::Events.configure do |config|
     action.logger.info "=== ACTION: CB: #{callback_id}, U: #{slack_username}, CAT: #{category}, AN: #{anonymous}"
 
     # Find the one open Retrospective model (should only be one!)
-    retrospective = Retrospective.find_by(status: "open")
+    retrospective = Retrospective.find_by(status: Retrospective.statuses[:open])
 
     # Only save slack info when anonymous is true.
     slack_info = anonymous ? { slack_user_id: nil, slack_username: nil } : { slack_user_id:, slack_username: }

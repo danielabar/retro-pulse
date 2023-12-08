@@ -85,6 +85,18 @@ bin/rspec
 
 If want to place `debugger` in Ruby code, need to start server with `bin/rails s` instead of `bin/dev`.
 
+### Dev Utils
+
+Close all retros:
+```ruby
+Retrospective.find_each(&:closed!)
+```
+
+Destroy all retros:
+```ruby
+Retrospective.find_each(&:destroy)
+```
+
 ## Further Reading
 
 - [Gems for Slack](docs/gems_for_slack.md)

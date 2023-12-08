@@ -1,51 +1,97 @@
 require "rails_helper"
 
 RSpec.describe OpenRetrospective, type: :interactor do
-  let(:command_text) { "New Retro" }
   let(:channel_id) { "123" }
   let(:slack_client) { instance_double(Slack::Web::Client, chat_postMessage: nil) }
 
   describe ".call" do
     context "when retro is created successfully" do
-      it "creates a retrospective and sends success message" do
+      it "creates a retrospective and sends success message via Slack" do
         allow(slack_client).to receive(:chat_postMessage)
 
-        result = described_class.call(command_text:, channel_id:, slack_client:)
+        title = "Project Zenith Sprint 3"
+        result = described_class.call(title:, channel_id:, slack_client:)
         expect(result).to be_a_success
 
-        retro = Retrospective.find_by(title: command_text)
+        retro = Retrospective.find_by(title:)
         expect(retro).to have_attributes(
-          title: command_text,
-          status: "open"
+          title:,
+          status: Retrospective.statuses[:open]
         )
 
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
-          text: "Created retro #{command_text}, view it at https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}"
+          text: "Created retro `#{title}`, view it at https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}"
         )
       end
 
-      # TODO: verify strips whitespace
-    end
-
-    # WIP Try to create a retro that already exists by name or already have an open one
-    context "when retro cannot be created due to validation error" do
-      it "sends an error message to the user" do
+      it "removes whitespace from title" do
         allow(slack_client).to receive(:chat_postMessage)
-        result = described_class.call(command_text:, channel_id:, slack_client:)
-        expect(result).to be_a_failure
-        expect(result.error_message).to eq("Could not create retro New Retro, error: Validation error")
+
+        title = "         some_title          "
+        result = described_class.call(title:, channel_id:, slack_client:)
+        expect(result).to be_a_success
+
+        retro = Retrospective.find_by(title: "some_title")
+        expect(retro).to have_attributes(
+          title: "some_title",
+          status: Retrospective.statuses[:open]
+        )
+
+        expect(slack_client).to have_received(:chat_postMessage).with(
+          channel: channel_id,
+          text: "Created retro `some_title`, view it at https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}"
+        )
+      end
+
+      it "removes html tags from title" do
+        allow(slack_client).to receive(:chat_postMessage)
+
+        title = "<b>text</b>"
+        result = described_class.call(title:, channel_id:, slack_client:)
+        expect(result).to be_a_success
+
+        retro = Retrospective.find_by(title: "text")
+        expect(retro).to have_attributes(
+          title: "text",
+          status: Retrospective.statuses[:open]
+        )
+
+        expect(slack_client).to have_received(:chat_postMessage).with(
+          channel: channel_id,
+          text: "Created retro `text`, view it at https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}"
+        )
       end
     end
 
-    # WIP
-    context "when an unexpected situation occurs" do
-      it "logs the error and fails the context" do
-        allow(Rails.logger).to receive(:error).twice
-        allow(slack_client).to receive(:chat_postMessage).and_raise(StandardError, "Slack client error")
-        result = described_class.call(command_text:, channel_id:, slack_client:)
+    context "when retro cannot be created due to validation error" do
+      it "does not create retrospective and sends error message with reason via Slack" do
+        create(:retrospective, status: Retrospective.statuses[:open])
+        allow(slack_client).to receive(:chat_postMessage)
+
+        result = described_class.call(title: "foo", channel_id:, slack_client:)
         expect(result).to be_a_failure
-        expect(result.error_message).to eq("An error occurred while opening the retrospective.")
+
+        expect(Retrospective.find_by(title: "foo")).to be_nil
+
+        expect(slack_client).to have_received(:chat_postMessage).with(
+          channel: channel_id,
+          text: "Could not create retro `foo`, error: [\"Status There can only be one open retrospective at a time.\"]"
+        )
+      end
+    end
+
+    context "when an unexpected error occurs" do
+      it "logs the error and fails the context" do
+        allow(Rails.logger).to receive(:error)
+        allow(slack_client).to receive(:chat_postMessage).and_raise(StandardError, "Slack client error")
+
+        result = described_class.call(title: "some title", channel_id:, slack_client:)
+        expect(result).to be_a_failure
+
+        expect(Rails.logger).to have_received(:error).with(
+          a_string_starting_with("Error in OpenRetrospective: Slack client error")
+        )
       end
     end
   end

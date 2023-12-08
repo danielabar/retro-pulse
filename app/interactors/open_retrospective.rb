@@ -1,13 +1,15 @@
-# Interactor for opening a retrospective.
 class OpenRetrospective
   include Interactor
+  include ActionView::Helpers::SanitizeHelper
 
-  # Interactor entry point.
+  # Create a new retrospective in `open` status with the given text,
+  # and reply back in channel with url of newly created retrospective.
+  # HTML tags and leading/trailing whitespace will be removed from text.
   #
   # @example
-  #   OpenRetrospective.call(command_text: "New Retro", channel_id: "123", slack_client: Slack::Web::Client.new)
+  #   OpenRetrospective.call(title: "New Retro", channel_id: "123", slack_client: Slack::Web::Client.new)
   #
-  # @param [String] command_text The title for the retrospective.
+  # @param [String] title The title for the retrospective.
   # @param [String] channel_id The ID of the Slack channel where the command was issued.
   # @param [Slack::Web::Client] slack_client An instance of the Slack client for communication.
   # @return [void]
@@ -16,13 +18,13 @@ class OpenRetrospective
     process_retrospective
   rescue StandardError => e
     log_error(e)
-    context.fail!(error_message: "An error occurred while opening the retrospective.")
+    context.fail!
   end
 
   private
 
   def initialize_retrospective
-    @title = context.command_text.strip
+    @title = strip_tags(context.title).strip
     @retrospective = Retrospective.new(title: @title)
   end
 
@@ -36,12 +38,13 @@ class OpenRetrospective
 
   def handle_successful_save
     url = retrospective_url
-    post_message("Created retro #{@title}, view it at #{url}")
+    post_message("Created retro `#{@title}`, view it at #{url}")
   end
 
   def handle_failed_save
-    error_message = @retrospective.errors.full_messages
-    post_message("Could not create retro #{@title}, error: #{error_message}")
+    error_message = "Could not create retro `#{@title}`, error: #{@retrospective.errors.full_messages}"
+    post_message(error_message)
+    context.fail!
   end
 
   def retrospective_url
@@ -57,7 +60,6 @@ class OpenRetrospective
   def log_error(error)
     error_message = "Error in OpenRetrospective: #{error.message}"
     backtrace = error.backtrace.join("\n")
-    error_log = "#{error_message}\n#{backtrace}"
-    Rails.logger.error(error_log)
+    Rails.logger.error("#{error_message}\n#{backtrace}")
   end
 end
