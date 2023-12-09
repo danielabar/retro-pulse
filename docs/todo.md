@@ -1,9 +1,9 @@
 # TODO
 
-- WIP: refactor retro-feedback slash command handler (service, error handling) `bot/slash_commands/retro_feedback.rb`. Interactor: InitiateFeedbackForm
-- refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission
+- WIP: refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission
 
 - Need action for `/retro-close` to close the currently open Retrospective
+- Need action for `/retro-discuss` to display url of currently open Retrospective
 
 - Why does it show "Sending messages to this app has been turned off" in Slack when clicking on the Retro Pulse app?
 

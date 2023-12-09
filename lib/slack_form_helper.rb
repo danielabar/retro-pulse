@@ -1,5 +1,7 @@
 module SlackFormHelper
-  def self.build_title_block
+  module_function
+
+  def build_title_block
     {
       type: "plain_text",
       text: "Retrospective Feedback",
@@ -7,7 +9,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_submit_block
+  def build_submit_block
     {
       type: "plain_text",
       text: "Submit",
@@ -15,7 +17,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_close_block
+  def build_close_block
     {
       type: "plain_text",
       text: "Cancel",
@@ -23,7 +25,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_category_block
+  def build_category_block
     {
       type: "input",
       block_id: "category_block",
@@ -35,7 +37,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_static_select_element
+  def build_static_select_element
     {
       type: "static_select",
       action_id: "category_select",
@@ -51,17 +53,17 @@ module SlackFormHelper
     }
   end
 
-  def self.build_option(text, value)
+  def build_option(text, value)
     {
       text: {
         type: "plain_text",
-        text: text
+        text:
       },
-      value: value
+      value:
     }
   end
 
-  def self.build_comment_block
+  def build_comment_block
     {
       type: "input",
       block_id: "comment_block",
@@ -73,7 +75,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_plain_text_input_element(placeholder_text)
+  def build_plain_text_input_element(placeholder_text)
     {
       type: "plain_text_input",
       action_id: "comment_input",
@@ -85,7 +87,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_anonymous_block
+  def build_anonymous_block
     {
       type: "input",
       block_id: "anonymous_block",
@@ -98,7 +100,7 @@ module SlackFormHelper
     }
   end
 
-  def self.build_checkboxes_element
+  def build_checkboxes_element
     {
       type: "checkboxes",
       action_id: "anonymous_checkbox",
