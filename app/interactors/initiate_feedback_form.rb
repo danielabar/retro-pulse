@@ -1,6 +1,6 @@
 class InitiateFeedbackForm
   include Interactor
-  include SlackFormHelper
+  include SlackFormBuilder
 
   # Initiates the feedback form modal in response to the user's invocation of the /retro-feedback slash command.
   # This interactor is responsible for constructing the necessary payload for the Slack modal and opening it using

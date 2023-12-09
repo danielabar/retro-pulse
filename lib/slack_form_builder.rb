@@ -1,4 +1,4 @@
-module SlackFormHelper
+module SlackFormBuilder
   module_function
 
   def build_title_block

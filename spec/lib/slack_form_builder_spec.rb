@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SlackFormHelper do
+RSpec.describe SlackFormBuilder do
   describe ".build_title_block" do
     it "builds a title block" do
       result = described_class.build_title_block
