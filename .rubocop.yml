@@ -19,6 +19,8 @@ AllCops:
     - 'config/environments/development.rb'
     - 'config/environments/production.rb'
     - 'spec/spec_helper.rb'
+    - 'docs/*.rb'
+    - 'db/migrate/20231127135016_add_check_constraint_for_slack_info_in_comments.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false

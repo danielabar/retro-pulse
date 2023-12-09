@@ -13,6 +13,7 @@
   - if feedback has anon checked, then display anon, otherwise display Slack user
   - nice to have: can we get Slack avatar?
 - welcome index view styling, layout
+- Generate slack url in WelcomeController rather than in view
 
 - tests for bot/slash_commands?
 
