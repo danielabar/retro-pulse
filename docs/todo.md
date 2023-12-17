@@ -1,6 +1,6 @@
 # TODO
 
-- WIP: refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission
+- WIP: refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission, need tests for interactor!
 - revisit interactor `OpenRetrospective`, don't context.fail! when retro save fails. Reserve context.fail! for unexpected errors.
 
 - Need action for `/retro-close` to close the currently open Retrospective

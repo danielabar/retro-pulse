@@ -38,7 +38,9 @@ class OpenRetrospective
 
   def handle_successful_save
     url = retrospective_url
-    post_message("Created retro `#{@title}`, view it at #{url}")
+    title_link = "<#{url}|#{@title}>"
+    message = ":memo: Opened retro #{title_link}"
+    post_message(message)
   end
 
   def handle_failed_save
@@ -54,7 +56,11 @@ class OpenRetrospective
   end
 
   def post_message(message)
-    context.slack_client.chat_postMessage(channel: context.channel_id, text: message)
+    context.slack_client.chat_postMessage(
+      channel: context.channel_id,
+      mrkdwn: true,
+      text: message
+    )
   end
 
   def log_error(error)
