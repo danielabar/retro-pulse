@@ -99,4 +99,7 @@ group :test do
   gem "selenium-webdriver"
 
   gem 'shoulda-matchers', '~> 5.0'
+
+  # Code coverage
+  gem 'simplecov', require: false
 end

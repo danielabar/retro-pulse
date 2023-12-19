@@ -77,8 +77,11 @@ Then in any channel, type in `/retro-open` and then `/retro-feedback` to use the
 
 ### Run tests
 
-```ruby
+```bash
 bin/rspec
+
+# view coverage report
+open coverage/index.html
 ```
 
 ### Debugging
