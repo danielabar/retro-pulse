@@ -23,6 +23,8 @@
 
 - tests for bot/slash_commands?
 
+- Github workflow for CI?
+
 - validate/inclusion on all models with enums, error message should include the list of allowed values
 - instead of string values everywhere, reference Model.enum...
 

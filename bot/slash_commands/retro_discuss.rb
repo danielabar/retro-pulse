@@ -4,7 +4,7 @@ SlackRubyBotServer::Events.configure do |config|
   end
 end
 
-def handle_retro_open_command(command)
+def handle_retro_discuss_command(command)
   team = Team.find_by(team_id: command[:team_id])
   slack_client = Slack::Web::Client.new(token: team.token)
   channel_id = command[:channel_id]
