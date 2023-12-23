@@ -1,3 +1,21 @@
+# https://github.com/simplecov-ruby/simplecov?tab=readme-ov-file#getting-started
+# After running your tests, open coverage/index.html
+require "simplecov"
+
+SimpleCov.profiles.define "botrails" do
+  add_filter "/spec/"
+  add_filter "/config/"
+
+  add_group "Interactors", "app/interactors"
+  add_group "Controllers", "app/controllers"
+  add_group "Models", "app/models"
+  add_group "Helpers", "app/helpers"
+  add_group "Libraries", "lib"
+  add_group "Bot", "bot"
+end
+
+SimpleCov.start "botrails"
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"

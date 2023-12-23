@@ -22,7 +22,6 @@ module RetroPulse
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Business logic goes here
-    config.autoload_paths << Rails.root.join("services")
+    config.autoload_paths << Rails.root.join("lib")
   end
 end

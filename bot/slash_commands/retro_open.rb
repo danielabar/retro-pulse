@@ -1,30 +1,16 @@
 SlackRubyBotServer::Events.configure do |config|
   config.on :command, "/retro-open" do |command|
-    team_id = command[:team_id]
-    team = Team.find_by(team_id:)
-    # needed because we want to respond back with a success/fail message
-    slack_client = Slack::Web::Client.new(token: team.token)
-    channel_id = command[:channel_id]
-    # this is the title provided by the user (sanitize for a real app)
-    text = command[:text].strip
-    command.logger.info "=== COMMAND: retro-open, Team: #{team.name}, Channel: #{channel_id}, Title: #{text}"
-
-    # Create a retro and reply back in Slack, ref: https://api.slack.com/methods/chat.postMessage
-    retrospective = Retrospective.new(title: text)
-    if retrospective.save
-      url = Rails.application.routes.url_helpers.retrospective_url(
-        retrospective, host: ENV.fetch("SERVER_HOST_NAME"), protocol: "https"
-      )
-      slack_client.chat_postMessage(
-        channel: channel_id,
-        text: "Created retro #{text}, view it at #{url}"
-      )
-    else
-      slack_client.chat_postMessage(
-        channel: channel_id,
-        text: "Could not create retro #{text}, error: #{retrospective.errors.full_messages}"
-      )
-    end
-    nil
+    handle_retro_open_command(command)
   end
+end
+
+def handle_retro_open_command(command)
+  team = Team.find_by(team_id: command[:team_id])
+  slack_client = Slack::Web::Client.new(token: team.token)
+  channel_id = command[:channel_id]
+  command_text = command[:text]
+  command.logger.info "=== COMMAND: retro-open, Team: #{team.name}, Channel: #{channel_id}, Title: #{command_text}"
+
+  OpenRetrospective.call(title: command_text, channel_id:, slack_client:)
+  nil
 end

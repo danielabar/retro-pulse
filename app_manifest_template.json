@@ -22,7 +22,6 @@
                 "command": "/retro-feedback",
                 "url": "https://SERVER_HOST_NAME/api/slack/command",
                 "description": "Provide some feedback for what's going well, or what to stop doing, or try",
-                "usage_hint": "Hit enter to display the feedback form",
                 "should_escape": false
             }
         ]
