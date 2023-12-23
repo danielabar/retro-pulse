@@ -1,8 +1,5 @@
 # TODO
 
-- WIP: refactor view_submission action handler (service, error handling) `bot/actions/view_submission.rb`. Interactor: ProcessFeedbackSubmission, need tests for interactor!
-- revisit interactor `OpenRetrospective`, don't context.fail! when retro save fails. Reserve context.fail! for unexpected errors.
-
 - Need action for `/retro-close` to close the currently open Retrospective
 
 - Need action for `/retro-discuss` to display url of currently open Retrospective
@@ -13,7 +10,7 @@
 - Why does it show "Sending messages to this app has been turned off" in Slack when clicking on the Retro Pulse app?
 
 - application layout needs work, especially wrt notices (actually, maybe don't need notices anymore)
-- build retro view: showing keep, stop, and try feedback as cards in columns
+- MAYBE NOT NEEDED if have `discuss` command from slack: retro view: showing keep, stop, and try feedback as cards in columns
   - retrospectives controller `show` action should `includes` comments
   - if feedback has anon checked, then display anon, otherwise display Slack user
   - nice to have: can we get Slack avatar?
