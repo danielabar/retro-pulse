@@ -56,4 +56,20 @@ RSpec.describe Retrospective do
   describe "factory" do
     it { is_expected.to be_valid }
   end
+
+  describe "scopes" do
+    describe ".open_retrospective" do
+      it "returns AR relation of a single open retro" do
+        create(:retrospective, status: described_class.statuses[:open])
+        open_retro = described_class.open_retrospective.first
+        expect(open_retro).to be_a(described_class)
+        expect(open_retro.status).to eq("open")
+      end
+
+      it "returns an empty AR relation if no open retrospectives exist" do
+        open_retro = described_class.open_retrospective.first
+        expect(open_retro).to be_nil
+      end
+    end
+  end
 end

@@ -24,6 +24,8 @@ class Retrospective < ApplicationRecord
   validates :status, presence: true
   validate :only_one_open_retrospective
 
+  scope :open_retrospective, -> { where(status: statuses[:open]) }
+
   private
 
   def only_one_open_retrospective

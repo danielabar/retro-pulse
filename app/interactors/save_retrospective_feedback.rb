@@ -20,7 +20,7 @@ class SaveRetrospectiveFeedback
   end
 
   def save_comment
-    retrospective = find_open_retrospective
+    retrospective = Retrospective.open_retrospective.first
 
     comment = Comment.new(
       content: @feedback_info[:comment],
@@ -35,10 +35,6 @@ class SaveRetrospectiveFeedback
                       else
                         "Could not save your `#{@feedback_info[:category]}` feedback: #{comment.errors.full_messages}"
                       end
-  end
-
-  def find_open_retrospective
-    Retrospective.find_by(status: Retrospective.statuses[:open])
   end
 
   def slack_fields
