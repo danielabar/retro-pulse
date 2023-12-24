@@ -72,4 +72,26 @@ RSpec.describe Retrospective do
       end
     end
   end
+
+  describe "#comments_by_category" do
+    it "returns comments for the given category" do
+      retro = create(:retrospective)
+      comment1 = create(:comment, retrospective: retro, category: Comment.categories[:keep])
+      comment2 = create(:comment, retrospective: retro, category: Comment.categories[:keep])
+      comment3 = create(:comment, retrospective: retro, category: Comment.categories[:stop])
+
+      comments = retro.comments_by_category(category: Comment.categories[:keep])
+      expect(comments.size).to eq(2)
+      expect(comments).to include(comment1, comment2)
+      expect(comments).not_to include(comment3)
+    end
+
+    it "returns empty collection if no comments with given category exist" do
+      retro = create(:retrospective)
+      create(:comment, retrospective: retro, category: Comment.categories[:keep])
+
+      comments = retro.comments_by_category(category: Comment.categories[:try])
+      expect(comments.size).to eq(0)
+    end
+  end
 end
