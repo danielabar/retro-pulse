@@ -41,4 +41,17 @@ class Comment < ApplicationRecord
   def user_info
     anonymous? ? "anonymous" : slack_username
   end
+
+  def self.header(category)
+    case category.to_sym
+    when :keep
+      "What we should keep on doing"
+    when :stop
+      "What we should stop doing"
+    when :try
+      "Something to try for next time"
+    else
+      "Unknown category"
+    end
+  end
 end

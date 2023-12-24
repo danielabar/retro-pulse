@@ -2,6 +2,9 @@ class DiscussRetrospective
   include Interactor
   include ActionView::Helpers::SanitizeHelper
 
+  # TODO: What if there is no open retro?
+  # TODO: What if did not receive any category?
+  # TODO: What if received invalid cateogry?
   def call
     retrospective = Retrospective.open_retrospective.first
     comments = retrospective.comments_by_category(category: context.category)
@@ -19,13 +22,21 @@ class DiscussRetrospective
     send_message(blocks)
   end
 
+  # TODO: Fix method length
   def build_header_block(comments)
     [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: Comment.header(context.category)
+        }
+      },
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "There are *#{comments.size}* `#{context.category}` comments"
+          text: "Found *#{comments.size}* comments in this category:"
         }
       },
       { type: "divider" }
@@ -52,37 +63,19 @@ class DiscussRetrospective
     }
   end
 
-  # displays nicely small, but no way to do side by side?
-  # def build_comment_context(comment)
-  #   {
-  #     type: "context",
-  #     elements: [
-  #       {
-  #         type: "plain_text",
-  #         emoji: true,
-  #         text: ":bust_in_silhouette: #{comment.user_info}"
-  #       },
-  #       {
-  #         type: "plain_text",
-  #         emoji: true,
-  #         text: ":date: #{comment.created_at.strftime('%Y-%m-%d')}"
-  #       }
-  #     ]
-  #   }
-  # end
-
-  # displays side-by-side, but too big
   def build_comment_context(comment)
     {
-      type: "section",
-      fields: [
+      type: "context",
+      elements: [
         {
           type: "plain_text",
+          emoji: true,
           text: ":bust_in_silhouette: #{comment.user_info}"
         },
         {
           type: "plain_text",
-          text: ":date: #{comment.created_at.strftime('%Y-%m-%d')}"
+          emoji: true,
+          text: ":calendar: #{comment.created_at.strftime('%Y-%m-%d')}"
         }
       ]
     }
@@ -93,8 +86,9 @@ class DiscussRetrospective
   end
 
   def send_message(blocks)
-    # temp debug
-    Rails.logger.info("=== BLOCKS: #{blocks.inspect}")
+    # If Slack responds with "invalid blocks" error, take this output, convert to JSON,
+    # and paste it in Slack's Block Kit Builder to see what's wrong.
+    Rails.logger.debug { "=== BLOCKS: #{blocks.inspect}" }
     context.slack_client.chat_postMessage(
       channel: context.channel_id,
       text: "fallback TBD",
