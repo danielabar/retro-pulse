@@ -2,6 +2,18 @@ class DiscussRetrospective
   include Interactor
   include SlackCommentBuilder
 
+  # Discuss the retrospective in the specified channel.
+  #
+  # Fetches the open retrospective, validates the discussion category,
+  # and posts relevant comments in the Slack channel.
+  #
+  # @example
+  #   DiscussRetrospective.call(category: "keep", channel_id: "123", slack_client: Slack::Web::Client.new)
+  #
+  # @param [String] category The discussion category (e.g., "keep", "stop", "try").
+  # @param [String] channel_id The ID of the Slack channel where the command was issued.
+  # @param [Slack::Web::Client] slack_client An instance of the Slack client for communication.
+  # @return [void]
   def call
     retrospective = Retrospective.open_retrospective.first
     return no_open_retrospective_message if retrospective.nil?
