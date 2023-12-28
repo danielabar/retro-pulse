@@ -1,4 +1,3 @@
-# spec/slack_comment_builder_spec.rb
 require "rails_helper"
 
 RSpec.describe SlackCommentBuilder do
