@@ -4,29 +4,24 @@
 
 - add index on Comments category
 
-- Update `/retro-open` to simply return the name with no link because will be getting rid of all views in Rails app, access will be via Slack only.
-- Remove unneeded routes, controller endpoints and tests
-
-- Why does it show "Sending messages to this app has been turned off" in Slack when clicking on the Retro Pulse app?
-
 - welcome index view styling, layout - include app name and logo somewhere?
 - Generate slack url in WelcomeController rather than in view
 
 - tests for bot/slash_commands?
-
-- Github workflow for CI?
 
 - validate/inclusion on all models with enums, error message should include the list of allowed values
 - instead of string values everywhere, reference Model.enum...
 
 ## Nice to have
 
+- Github workflow for CI?
 - `/retro-status` command to show name of currently open retro and how many feedbacks of each category OR indicate there is no open retro
 - `/retro-feedback` default category to `keep` should be able to do with `initial_option` in [static_select](https://api.slack.com/reference/block-kit/block-elements#static_select) but getting invalid error
 - `/retro-feedback keep` would pre-populate dropdown with `keep` (similar for `stop` and `try`)
 - text area form label changes based on dropdown value (eg: What should we keep on doing?), see `views.update` in https://api.slack.com/surfaces/modals
 - keep/stop/try in app_manifest_template.json usage hint, any way to dynamically replace as part of manifest builder with Comment model enum value?
 - possible to show Slack avatar for non-anon feedback in result of /retro-discuss?
+- Why does it show "Sending messages to this app has been turned off" in Slack when clicking on the Retro Pulse app?
 
 - Can user's edit their feedback?
   - Maybe if send block kit response with button, then need to handle new bot action `block_actions`, then check payload: actions action_id: edit-comment-{comment id}

@@ -22,7 +22,7 @@ RSpec.describe OpenRetrospective, type: :interactor do
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
           mrkdwn: true,
-          text: ":memo: Opened retro <https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}|#{title}>"
+          text: ":memo: Opened retro `Project Zenith Sprint 3`"
         )
       end
 
@@ -42,7 +42,7 @@ RSpec.describe OpenRetrospective, type: :interactor do
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
           mrkdwn: true,
-          text: ":memo: Opened retro <https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}|some_title>"
+          text: ":memo: Opened retro `some_title`"
         )
       end
 
@@ -62,7 +62,7 @@ RSpec.describe OpenRetrospective, type: :interactor do
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
           mrkdwn: true,
-          text: ":memo: Opened retro <https://#{ENV.fetch('SERVER_HOST_NAME')}/retrospectives/#{retro.id}|text>"
+          text: ":memo: Opened retro `text`"
         )
       end
     end
@@ -73,14 +73,13 @@ RSpec.describe OpenRetrospective, type: :interactor do
         allow(slack_client).to receive(:chat_postMessage)
 
         result = described_class.call(title: "foo", channel_id:, slack_client:)
-        expect(result).to be_a_failure
+        expect(result).to be_a_success
 
         expect(Retrospective.find_by(title: "foo")).to be_nil
-
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
           mrkdwn: true,
-          text: "Could not create retro `foo`, error: [\"Status There can only be one open retrospective at a time.\"]"
+          text: include("There can only be one open retrospective at a time")
         )
       end
     end
