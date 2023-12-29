@@ -66,9 +66,10 @@ class DiscussRetrospective
   end
 
   def send_error_message(text)
+    warning_icon = ":warning:"
     context.slack_client.chat_postMessage(
       channel: context.channel_id,
-      text:
+      text: "#{warning_icon} #{text}"
     )
   end
 

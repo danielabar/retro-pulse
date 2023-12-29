@@ -46,7 +46,7 @@ Rails/I18nLocaleTexts:
   Enabled: false
 
 RSpec/ExampleLength:
-  Max: 15
+  Max: 20
 
 RSpec/MultipleExpectations:
   Max: 10

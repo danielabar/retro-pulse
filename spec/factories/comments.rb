@@ -23,7 +23,7 @@
 FactoryBot.define do
   factory :comment do
     retrospective
-    content { "MyText" }
+    content { Faker::Lorem.paragraph }
     anonymous { false }
     slack_user_id { "abc123" }
     slack_username { "jane.smith" }
