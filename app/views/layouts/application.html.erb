@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>RetroPulse</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
@@ -14,7 +14,7 @@
   <body class="bg-gray-100">
     <header class="bg-blue-500 text-white py-4">
       <div class="container mx-auto flex justify-between items-center">
-        <%= link_to root_path do %>
+        <%= link_to root_path, class: "flex items-center" do %>
           <img src="<%= asset_path('logo.jpeg') %>" alt="Retro Pulse" class="h-16 w-auto mb-2">
           <h1 class="text-xl font-bold ml-2">Retro Pulse</h1>
         <% end %>
