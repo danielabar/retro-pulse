@@ -1,6 +1,9 @@
 # TODO
 
-- Action for `/retro-close` to close the currently open Retrospective
+- WIP: Action for `/retro-close` to close the currently open Retrospective
+  - cleanup mess of post_message, send_error_message
+
+- FIX: `app/interactors/initiate_feedback_form.rb` should not send form and let user fill it out if there is no open retrospective
 
 - add index on Comments category
 
