@@ -1,11 +1,9 @@
-# spec/requests/welcome_request_spec.rb
-
 require "rails_helper"
 require "cgi"
 
 RSpec.describe "Welcome" do
   describe "GET /" do
-    it "renders the index template and includes the correct OAuth URL" do
+    it "includes the Slack OAuth URL" do
       get root_path
 
       # Compare the response body after unescaping HTML entities
