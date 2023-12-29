@@ -37,22 +37,13 @@ class OpenRetrospective
   end
 
   def handle_successful_save
-    url = retrospective_url
-    title_link = "<#{url}|#{@title}>"
-    message = ":memo: Opened retro #{title_link}"
+    message = ":memo: Opened retro `#{@retrospective.title}`"
     post_message(message)
   end
 
   def handle_failed_save
-    error_message = "Could not create retro `#{@title}`, error: #{@retrospective.errors.full_messages}"
+    error_message = ":warning: Could not create retro `#{@title}`, error: #{@retrospective.errors.full_messages}"
     post_message(error_message)
-    context.fail!
-  end
-
-  def retrospective_url
-    Rails.application.routes.url_helpers.retrospective_url(
-      @retrospective, host: ENV.fetch("SERVER_HOST_NAME"), protocol: "https"
-    )
   end
 
   def post_message(message)
