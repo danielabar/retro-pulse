@@ -4,9 +4,6 @@
 
 - add index on Comments category
 
-- welcome index view styling, layout - include app name and logo somewhere?
-- Generate slack url in WelcomeController rather than in view
-
 - tests for bot/slash_commands?
 
 - validate/inclusion on all models with enums, error message should include the list of allowed values
