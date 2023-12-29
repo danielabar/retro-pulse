@@ -11,8 +11,18 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-gray-100">
+    <header class="bg-blue-500 text-white py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <%= link_to root_path do %>
+          <img src="<%= asset_path('logo.jpeg') %>" alt="Retro Pulse" class="h-16 w-auto mb-2">
+          <h1 class="text-xl font-bold ml-2">Retro Pulse</h1>
+        <% end %>
+        <!-- Add any additional elements on the right side if needed -->
+      </div>
+    </header>
+
+    <main class="container mx-auto mt-8 p-5 bg-white rounded shadow">
       <%= yield %>
     </main>
   </body>
