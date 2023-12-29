@@ -82,4 +82,22 @@ RSpec.describe Comment do
         .backed_by_column_of_type(:enum)
     }
   end
+
+  describe ".header" do
+    it "returns header text for 'keep' category" do
+      expect(described_class.header(:keep)).to eq("What we should keep on doing")
+    end
+
+    it "returns header text for 'stop' category" do
+      expect(described_class.header(:stop)).to eq("What we should stop doing")
+    end
+
+    it "returns header text for 'try' category" do
+      expect(described_class.header(:try)).to eq("Something to try for next time")
+    end
+
+    it "returns 'Unknown category' for an unknown category" do
+      expect(described_class.header(:unknown)).to eq("Unknown category")
+    end
+  end
 end

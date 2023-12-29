@@ -37,4 +37,21 @@ class Comment < ApplicationRecord
   validates :slack_username, absence: { message: "must be empty when anonymous is true" }, if: :anonymous
   validates :slack_user_id, presence: { message: "must be provided when anonymous is false" }, unless: :anonymous
   validates :slack_username, presence: { message: "must be provided when anonymous is false" }, unless: :anonymous
+
+  def user_info
+    anonymous? ? "anonymous" : slack_username
+  end
+
+  def self.header(category)
+    case category.to_sym
+    when :keep
+      "What we should keep on doing"
+    when :stop
+      "What we should stop doing"
+    when :try
+      "Something to try for next time"
+    else
+      "Unknown category"
+    end
+  end
 end

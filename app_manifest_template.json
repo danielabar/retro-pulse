@@ -23,6 +23,13 @@
                 "url": "https://SERVER_HOST_NAME/api/slack/command",
                 "description": "Provide some feedback for what's going well, or what to stop doing, or try",
                 "should_escape": false
+            },
+            {
+                "command": "/retro-discuss",
+                "url": "https://SERVER_HOST_NAME/api/slack/command",
+                "description": "Discuss retrospective feedback. Use `/retro-discuss keep`, `/retro-discuss stop`, or `/retro-discuss try` to view related comments.",
+                "usage_hint": "keep stop try",
+                "should_escape": false
             }
         ]
     },

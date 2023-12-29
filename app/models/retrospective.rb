@@ -24,6 +24,12 @@ class Retrospective < ApplicationRecord
   validates :status, presence: true
   validate :only_one_open_retrospective
 
+  scope :open_retrospective, -> { where(status: statuses[:open]) }
+
+  def comments_by_category(category:)
+    comments.where(category:)
+  end
+
   private
 
   def only_one_open_retrospective
