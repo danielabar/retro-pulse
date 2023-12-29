@@ -25,15 +25,7 @@ class CloseRetrospective
 
   def handle_successful_close
     message = ":closed_book: Closed retrospective `#{@retrospective.title}`"
-    post_message(message)
-  end
-
-  def post_message(message)
-    context.slack_client.chat_postMessage(
-      channel: context.channel_id,
-      mrkdwn: true,
-      text: message
-    )
+    send_slack_message(message)
   end
 
   def no_open_retrospective_message
@@ -43,9 +35,14 @@ class CloseRetrospective
 
   def send_error_message(text)
     warning_icon = ":warning:"
+    send_slack_message("#{warning_icon} #{text}")
+  end
+
+  def send_slack_message(text)
     context.slack_client.chat_postMessage(
       channel: context.channel_id,
-      text: "#{warning_icon} #{text}"
+      mrkdwn: true,
+      text:
     )
   end
 

@@ -32,6 +32,7 @@ RSpec.describe CloseRetrospective, type: :interactor do
 
         expect(slack_client).to have_received(:chat_postMessage).with(
           channel: channel_id,
+          mrkdwn: true,
           text: ":warning: There is no open retrospective."
         )
       end
