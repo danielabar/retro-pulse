@@ -40,13 +40,7 @@ module SlackCommentBuilder
   end
 
   def build_comment_content(comment)
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: comment.content
-      }
-    }
+    build_section(comment.content)
   end
 
   def build_comment_context(comment)
