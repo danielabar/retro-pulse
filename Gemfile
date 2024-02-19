@@ -91,6 +91,7 @@ group :development do
   gem 'rubocop-factory_bot'
   gem 'rubocop-capybara'
   gem "solargraph"
+  gem 'brakeman'
 end
 
 group :test do
