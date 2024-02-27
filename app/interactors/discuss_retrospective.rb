@@ -55,9 +55,9 @@ class DiscussRetrospective
   end
 
   def send_message(blocks)
-    # If Slack responds with "invalid blocks" error, take this output, convert to JSON,
-    # and paste it in Slack's Block Kit Builder to see what's wrong.
-    Rails.logger.debug { "=== BLOCKS: #{blocks.inspect}" }
+    # If Slack responds with "invalid blocks" error, paste the following
+    # into Slack's Block Kit Builder to see what's wrong.
+    Rails.logger.debug { "=== BLOCKS: #{blocks.to_json}" }
     context.slack_client.chat_postMessage(
       channel: context.channel_id,
       text: "fallback TBD",
