@@ -1,7 +1,5 @@
 # TODO
 
-- FIX: `app/interactors/initiate_feedback_form.rb` should not send form and let user fill it out if there is no open retrospective
-
 - add index on Comments category
 
 - tests for bot/slash_commands?
